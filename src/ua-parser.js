@@ -162,18 +162,6 @@
             }
         },
 
-        device : {
-            sprint : {
-                model : {
-                    'Evo Shift 4G' : '7373KT'
-                },
-                vendor : {
-                    'HTC'       : 'APA',
-                    'Sprint'    : 'Sprint'
-                }
-            }
-        },
-
         os : {
             windows : {
                 version : {
@@ -280,118 +268,7 @@
             ], [NAME, VERSION, MAJOR]
         ],
 
-        cpu : [[
-
-            /(?:(amd|x(?:(?:86|64)[_-])?|wow|win)64)[;\)]/i                     // AMD64
-            ], [[ARCHITECTURE, 'amd64']], [
-
-            /((?:i[346]|x)86)[;\)]/i                                            // IA32
-            ], [[ARCHITECTURE, 'ia32']], [
-
-            // PocketPC mistakenly identified as PowerPC
-            /windows\s(ce|mobile);\sppc;/i
-            ], [[ARCHITECTURE, 'arm']], [
-
-            /((?:ppc|powerpc)(?:64)?)(?:\smac|;|\))/i                           // PowerPC
-            ], [[ARCHITECTURE, /ower/, '', util.lowerize]], [
-
-            /(sun4\w)[;\)]/i                                                    // SPARC
-            ], [[ARCHITECTURE, 'sparc']], [
-
-            /(ia64(?=;)|68k(?=\))|arm(?=v\d+;)|(?:irix|mips|sparc)(?:64)?(?=;)|pa-risc)/i
-                                                                                // IA64, 68K, ARM, IRIX, MIPS, SPARC, PA-RISC
-            ], [ARCHITECTURE, util.lowerize]
-        ],
-
-        device : [[
-
-            /\((ipad|playbook);[\w\s\);-]+(rim|apple)/i                         // iPad/PlayBook
-            ], [MODEL, VENDOR, [TYPE, TABLET]], [
-
-            /(hp).+(touchpad)/i,                                                // HP TouchPad
-            /(kindle)\/([\w\.]+)/i,                                             // Kindle
-            /\s(nook)[\w\s]+build\/(\w+)/i,                                     // Nook
-            /(dell)\s(strea[kpr\s\d]*[\dko])/i                                  // Dell Streak
-            ], [VENDOR, MODEL, [TYPE, TABLET]], [
-
-            /\((ip[honed]+);.+(apple)/i                                         // iPod/iPhone
-            ], [MODEL, VENDOR, [TYPE, MOBILE]], [
-
-            /(blackberry)[\s-]?(\w+)/i,                                         // BlackBerry
-            /(blackberry|benq|palm(?=\-)|sonyericsson|acer|asus|dell|huawei|meizu|motorola)[\s_-]?([\w-]+)*/i,
-                                                                                // BenQ/Palm/Sony-Ericsson/Acer/Asus/Dell/Huawei/Meizu/Motorola
-            /(hp)\s([\w\s]+\w)/i,                                               // HP iPAQ
-            /(asus)-?(\w+)/i                                                    // Asus
-            ], [VENDOR, MODEL, [TYPE, MOBILE]], [
-            /\((bb10);\s(\w+)/i                                                 // BlackBerry 10
-            ], [[VENDOR, 'BlackBerry'], MODEL, [TYPE, MOBILE]], [
-
-            /android.+((transfo[prime\s]{4,10}\s\w+|eeepc|slider\s\w+))/i       // Asus Tablets
-            ], [[VENDOR, 'Asus'], MODEL, [TYPE, TABLET]], [
-
-            /(sony)\s(tablet\s[ps])/i                                           // Sony Tablets
-            ], [VENDOR, MODEL, [TYPE, TABLET]], [
-
-            /(nintendo)\s([wids3u]+)/i                                          // Nintendo
-            ], [VENDOR, MODEL, [TYPE, CONSOLE]], [
-
-            /((playstation)\s[3portablevi]+)/i                                  // Playstation
-            ], [[VENDOR, 'Sony'], MODEL, [TYPE, CONSOLE]], [
-
-            /(sprint\s(\w+))/i                                                  // Sprint Phones
-            ], [[VENDOR, mapper.str, maps.device.sprint.vendor], [MODEL, mapper.str, maps.device.sprint.model], [TYPE, MOBILE]], [
-
-            /(htc)[;_\s-]+([\w\s]+(?=\))|\w+)*/i,                               // HTC
-            /(zte)-(\w+)*/i,                                                    // ZTE
-            /(alcatel|geeksphone|huawei|lenovo|nexian|panasonic|(?=;\s)sony)[_\s-]?([\w-]+)*/i
-                                                                                // Alcatel/GeeksPhone/Huawei/Lenovo/Nexian/Panasonic/Sony
-            ], [VENDOR, [MODEL, /_/g, ' '], [TYPE, MOBILE]], [
-
-                                                                                // Motorola
-            /\s((milestone|droid(?:[2-4x]|\s(?:bionic|x2|pro|razr))?(:?\s4g)?))[\w\s]+build\//i,
-            /(mot)[\s-]?(\w+)*/i
-            ], [[VENDOR, 'Motorola'], MODEL, [TYPE, MOBILE]], [
-            /android.+\s((mz60\d|xoom[\s2]{0,2}))\sbuild\//i
-            ], [[VENDOR, 'Motorola'], MODEL, [TYPE, TABLET]], [
-
-            /android.+((sch-i[89]0\d|shw-m380s|gt-p\d{4}|gt-n8000|sgh-t8[56]9))/i
-            ], [[VENDOR, 'Samsung'], MODEL, [TYPE, TABLET]], [                  // Samsung
-            /((s[cgp]h-\w+|gt-\w+|galaxy\snexus))/i,
-            /(sam[sung]*)[\s-]*(\w+-?[\w-]*)*/i,
-            /sec-((sgh\w+))/i
-            ], [[VENDOR, 'Samsung'], MODEL, [TYPE, MOBILE]], [
-            /(sie)-(\w+)*/i                                                     // Siemens
-            ], [[VENDOR, 'Siemens'], MODEL, [TYPE, MOBILE]], [
-
-            /(maemo|nokia).*(n900|lumia\s\d+)/i,                                // Nokia
-            /(nokia)[\s_-]?([\w-]+)*/i
-            ], [[VENDOR, 'Nokia'], MODEL, [TYPE, MOBILE]], [
-
-            /android\s3\.[\s\w-;]{10}((a\d{3}))/i                               // Acer
-            ], [[VENDOR, 'Acer'], MODEL, [TYPE, TABLET]], [
-
-            /android\s3\.[\s\w-;]{10}(lg?)-([06cv9]{3,4})/i                     // LG
-            ], [[VENDOR, 'LG'], MODEL, [TYPE, TABLET]], [
-            /((nexus\s4))/i,
-            /(lg)[e;\s-\/]+(\w+)*/i
-            ], [[VENDOR, 'LG'], MODEL, [TYPE, MOBILE]], [
-
-            /(mobile|tablet);.+rv\:.+gecko\//i                                  // Unidentifiable
-            ], [TYPE, VENDOR, MODEL]
-        ],
-
-        engine : [[
-
-            /(presto)\/([\w\.]+)/i,                                             // Presto
-            /(webkit|trident|netfront|netsurf|amaya|lynx|w3m)\/([\w\.]+)/i,     // WebKit/Trident/NetFront/NetSurf/Amaya/Lynx/w3m
-            /(khtml|tasman|links)[\/\s]\(?([\w\.]+)/i,                          // KHTML/Tasman/Links
-            /(icab)[\/\s]([23]\.[\d\.]+)/i                                      // iCab
-            ], [NAME, VERSION], [
-
-            /rv\:([\w\.]+).*(gecko)/i                                           // Gecko
-            ], [VERSION, NAME]
-        ],
-
+    
         os : [[
 
             // Windows based
@@ -469,27 +346,8 @@
         this.getBrowser = function () {
             return mapper.rgx.apply(this, regexes.browser);
         };
-        this.getCPU = function () {
-            return mapper.rgx.apply(this, regexes.cpu);
-        };
-        this.getDevice = function () {
-            return mapper.rgx.apply(this, regexes.device);
-        };
-        this.getEngine = function () {
-            return mapper.rgx.apply(this, regexes.engine);
-        };
         this.getOS = function () {
             return mapper.rgx.apply(this, regexes.os);
-        };
-        this.getResult = function() {
-            return {
-                ua      : this.getUA(),
-                browser : this.getBrowser(),
-                engine  : this.getEngine(),
-                os      : this.getOS(),
-                device  : this.getDevice(),
-                cpu     : this.getCPU()
-            };
         };
         this.getUA = function () {
             return ua;
@@ -498,6 +356,13 @@
             ua = uastring;
             return this;
         };
+        this.getResult = function() {
+            return {
+                browser : this.getBrowser(),
+                os      : this.getOS(),
+            };
+        };
+
         this.setUA(ua);
     };
 
@@ -516,29 +381,7 @@
         exports.UAParser = UAParser;
     } else {
         // browser env
-        window.UAParser = UAParser;        
-        // requirejs env (optional)
-        if (typeof(define) === FUNC_TYPE && define.amd) {
-            define(function () {
-                return UAParser;
-            });
-        }
-        // jQuery specific (optional)
-        if (typeof(window.jQuery) !== UNDEF_TYPE) {
-            var $ = window.jQuery;
-            var parser = new UAParser();
-            $.ua = parser.getResult();
-            $.ua.get = function() {
-                return parser.getUA();
-            };
-            $.ua.set = function (uastring) {
-                parser.setUA(uastring);
-                var result = parser.getResult();
-                for (var prop in result) {
-                    $.ua[prop] = result[prop];
-                }
-            };
-        }
+        window.UAParser = UAParser;
     }
 
 })(this);
